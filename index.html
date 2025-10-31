@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Calculadora Huella de Carbono Ecospas</title>
+        <link rel="icon" type="image/png" href="sheep-icon.png" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 1rem;
+                background-color: #f8f9fa;
+            }
+
+            .container {
+                max-width: 600px;
+                margin: auto;
+                background: #fff;
+                padding: 1rem;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+            }
+
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem; /* <-- Añade esta línea */
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+                margin: 0;
+            }
+
+            .header img {
+                width: 60px;
+                height: auto;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            label {
+                display: flex;
+                align-items: center;
+                font-weight: bold;
+                margin-bottom: 0.25rem;
+                gap: 6px;
+            }
+
+            input[type="number"] {
+                width: 100%;
+                padding: 0.5rem;
+                font-size: 1rem;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            button {
+                width: 100%;
+                padding: 0.75rem;
+                font-size: 1rem;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 1rem;
+            }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+            .result {
+                margin-top: 1rem;
+                font-size: 1.25rem;
+                color: #28a745;
+                text-align: center;
+            }
+
+            .section-title {
+                text-align: center;
+                color: #003366;
+                font-weight: bold;
+                font-size: 1.15rem;
+                margin-top: 2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .logo {
+                display: block;
+                margin: 0 auto 2rem;
+                max-width: 80%;
+                height: auto;
+            }
+
+            hr {
+                border: none;
+                border-top: 1px solid #ddd;
+                margin: 2rem 0;
+            }
+
+            /* Icono de ayuda */
+            .help-icon {
+                display: inline-block;
+                width: 18px;
+                height: 18px;
+                background-color: #0056b3; /* azul más claro */
+                color: white;
+                border-radius: 50%;
+                text-align: center;
+                font-size: 13px;
+                line-height: 18px;
+                cursor: help;
+                position: relative;
+                flex-shrink: 0;
+            }
+
+            /* Tooltip sobre el icono */
+            .help-icon::after {
+                content: attr(data-tooltip);
+                position: absolute;
+                left: 50%;
+                bottom: 125%; /* aparece arriba */
+                transform: translateX(-50%);
+                background: #003366;
+                color: #fff;
+                padding: 6px 8px;
+                border-radius: 6px;
+                font-size: 0.85rem;
+                white-space: normal;
+                width: 240px;
+                text-align: center;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.25s ease-in-out;
+                box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
+            }
+
+            .help-icon:hover::after {
+                opacity: 1;
+            }
+
+            /* Flecha inferior del tooltip */
+            .help-icon::before {
+                content: "";
+                position: absolute;
+                left: 50%;
+                bottom: 115%;
+                transform: translateX(-50%);
+                border-width: 6px;
+                border-style: solid;
+                border-color: #003366 transparent transparent transparent;
+                opacity: 0;
+                transition: opacity 0.25s ease-in-out;
+            }
+
+            .help-icon:hover::before {
+                opacity: 1;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Calculadora de huella de carbono de granjas de ovino en pastoreo. ECOSPAS</h1>
+                <img src="sheep-icon.png" alt="Icono de oveja" />
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Alimentación: € gastados / hectárea
+                    <span
+                        class="help-icon"
+                        data-tooltip="Compra de alimentos por hectárea (paja, piensos, forrajes, etc.) a precios actuales"
+                        >?</span
+                    >
+                </label>
+                <input type="number" id="euroHaAlim" step="any" placeholder="ej: 450" />
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Nº ovejas
+                    <span class="help-icon" data-tooltip="Número de hembras adultas presentes en la explotación"
+                        >?</span
+                    >
+                </label>
+                <input type="number" id="Novejas" step="any" placeholder="ej: 600" />
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Kg peso vivo vendido / hectárea
+                    <span
+                        class="help-icon"
+                        data-tooltip="Kilos de peso vivo vendidos por hectárea (lechales, pascuales, carneros y ovejas de desecho)"
+                        >?</span
+                    >
+                </label>
+                <input type="number" id="kgPVvHa" step="any" placeholder="ej: 35" />
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Superficie agrícola útil (en hectáreas) / hembra
+                    <span
+                        class="help-icon"
+                        data-tooltip="Hectáreas de superficie agrícola útil dedicadas a cultivos forrajeros o para grano por hembra presente"
+                        >?</span
+                    >
+                </label>
+                <input type="number" id="HaSAUhembra" step="any" placeholder="ej: 2.5" />
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Kg materia seca alimentos comprados / hectárea
+                    <span
+                        class="help-icon"
+                        data-tooltip="Kilos de alimentos comprados, expresados en materia seca, por hectárea"
+                        >?</span
+                    >
+                </label>
+                <input type="number" id="KgMSAlimCompHa" step="any" placeholder="ej: 400" />
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Hembras presentes / hectárea
+                    <span
+                        class="help-icon"
+                        data-tooltip="Número de hembras presentes (sin incluir reposición) por hectárea"
+                        >?</span
+                    >
+                </label>
+                <input type="number" id="HembraHa" step="any" placeholder="ej: 2" />
+            </div>
+
+            <button onclick="calculateY()">Calcular</button>
+            <div class="result" id="result"></div>
+
+            <hr />
+
+            <!-- Sección Instituciones participantes -->
+            <div class="section-title">Instituciones participantes</div>
+            <img src="socios.png" alt="Instituciones participantes" class="logo" />
+
+            <hr />
+
+            <!-- Sección Financiado por -->
+            <div class="section-title">Financiado por</div>
+            <img src="ministerio.jpg" alt="Financiado por" class="logo" />
+        </div>
+
+        <script>
+            function calculateY() {
+                const euroHaAlim = parseFloat(document.getElementById("euroHaAlim").value);
+                const Novejas = parseFloat(document.getElementById("Novejas").value);
+                const kgPVvHa = parseFloat(document.getElementById("kgPVvHa").value);
+                const HaSAUhembra = parseFloat(document.getElementById("HaSAUhembra").value);
+                const KgMSAlimCompHa = parseFloat(document.getElementById("KgMSAlimCompHa").value);
+                const HembraHa = parseFloat(document.getElementById("HembraHa").value);
+
+                // New regression model
+                const Y_Hctha_pred =
+                    6.77953273 +
+                    5.38053518 * euroHaAlim +
+                    0.04961863 * Novejas +
+                    12.71830114 * kgPVvHa -
+                    0.40426139 * HaSAUhembra -
+                    0.24708861 * KgMSAlimCompHa +
+                    0.64151552 * HembraHa;
+
+                const displayValue = Y_Hctha_pred % 1 === 0 ? Y_Hctha_pred.toFixed(0) : Y_Hctha_pred.toFixed(2);
+
+                document.getElementById("result").innerHTML =
+                    `<strong>Kg de CO2 equivalente / ha:</strong> ${displayValue}`;
+            }
+        </script>
+    </body>
+</html>
